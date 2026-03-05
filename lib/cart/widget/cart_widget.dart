@@ -1,0 +1,10 @@
+part of "../../global/widgets.dart";
+
+class CartWidget extends StatelessWidget {
+  const CartWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
