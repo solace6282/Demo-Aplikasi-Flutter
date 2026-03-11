@@ -48,6 +48,7 @@ class FeatureGenerator {
     final File widgetFile =
         File("./lib/$value/widget/${moduleName}_widget.dart");
     final File modelFile = File("./lib/$value/model/${moduleName}_model.dart");
+    final File stateDataFile = File("./lib/$value/model/${moduleName}_state_data_model.dart");
     final File serviceFile =
         File("./lib/$value/service/${moduleName}_service.dart");
     final File cubitFile = File("./lib/$value/cubit/${moduleName}_cubit.dart");
@@ -66,6 +67,11 @@ class FeatureGenerator {
     if (!modelFile.existsSync()) {
       modelFile.createSync(recursive: true);
       modelFile.writeAsStringSync(await ModelGenerator.generate(value));
+    }
+
+    if (!stateDataFile.existsSync()) {
+      stateDataFile.createSync(recursive: true);
+      stateDataFile.writeAsStringSync(await StateDataGenerator.generate(value));
     }
 
     if (!serviceFile.existsSync()) {
@@ -184,6 +190,41 @@ class MainModel extends Equatable {
   }
 }
 
+class StateDataGenerator {
+  static Future<String> generate(String value) async {
+    String moduleName = value.split("/")[0];
+    final parentFile = File('$globalPath/models.dart');
+    if (!parentFile
+        .readAsStringSync()
+        .contains("import 'package:equatable/equatable.dart'")) {
+      parentFile.writeAsStringSync(
+          "import 'package:equatable/equatable.dart';\n",
+          mode: FileMode.append);
+    }
+    parentFile.writeAsStringSync(
+        'part "../$moduleName/model/${moduleName}_state_data_model.dart";\n',
+        mode: FileMode.append);
+
+    return """
+part of "../../global/models.dart";
+
+class MainModel extends Equatable {
+  const MainModel();
+
+  @override
+  List<Object?> get props => [];
+
+  MainModel copyWith() => const MainModel();
+
+  factory MainModel.init()
+    => MainModel();
+}
+"""
+        .replaceAll("Main", '${moduleName.toClassName()}StateData')
+        .trim();
+  }
+}
+
 class ServiceGenerator {
   static Future<String> generate(String value) async {
     String moduleName = value.split("/")[0];
@@ -241,6 +282,12 @@ abstract class MainState extends Equatable {
 }
 
 class MainInitial extends MainState {}
+
+// class MainLoading extends MainState {}
+
+// class MainSuccess extends MainState {}
+
+// class MainFailed extends MainState {}
 
 """
         .replaceAll("Main", moduleName.toClassName())

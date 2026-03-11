@@ -11,6 +11,22 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        // scaffoldBackgroundColor: Colors.white,
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.black12)
+          )
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.deepPurple,
+          iconTheme: IconThemeData(
+            color: Colors.white
+          ),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 16
+          ),
+        )
       ),
       onGenerateRoute: route.controller,
       initialRoute: route.loginScreen,

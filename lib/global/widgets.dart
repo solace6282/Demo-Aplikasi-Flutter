@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:litest/core/util/constants.dart';
+import 'package:litest/global/models.dart';
 part "../product/widget/product_widget.dart";
 part "../home/widget/home_widget.dart";
 part "../cart/widget/cart_widget.dart";
 part "../login/widget/login_widget.dart";
+part 'widgets/label_textfield.dart';
+part 'widgets/global_dialog.dart';
