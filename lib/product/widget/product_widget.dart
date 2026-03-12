@@ -21,18 +21,45 @@ class ProductWidget extends StatelessWidget {
       child: Column(
         spacing: Constants.defaultGap,
         children: [
-          Text(product.id),
-          Text(product.name),
-          Text(product.description),
-          Text(product.category.name),
-          Text(product.harga.toString()),
-          Text(product.image),
-          TextButton(
-            onPressed: (){
-              
-            }, 
-            child: Text("Add to Cart")
-          )
+          // Text(product.id.toString()),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Name: "),
+                  Text("Description: "),
+                  Text("Product Category: "),
+                  Text("Price: "),
+                ],
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(product.name),
+                    Text(product.description, overflow: TextOverflow.ellipsis,),
+                    Text(product.category.name),
+                    Text(product.harga.toString()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Image.network(product.image),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: Constants.defaultGap,
+            children: [
+              TextButton(
+                onPressed: (){
+                  context.read<CartCubit>().addItemToCart(product);
+                }, 
+                child: Text("Add to Cart")
+              ),
+              Text("In cart: ${context.watch<CartCubit>().state.stateData.productInCart(product).count}")
+            ],
+          ),
         ],
       ),
     );

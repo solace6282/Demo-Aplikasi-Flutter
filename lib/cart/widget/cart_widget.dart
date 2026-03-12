@@ -1,9 +1,9 @@
 part of "../../global/widgets.dart";
 
 class CartWidget extends StatelessWidget {
-  const CartWidget({super.key, required this.product});
+  const CartWidget({super.key, required this.cart});
 
-  final ProductModel product;
+  final CartModel cart;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,50 @@ class CartWidget extends StatelessWidget {
       child: Column(
         spacing: Constants.defaultGap,
         children: [
-          Text(product.id),
-          Text(product.name),
-          Text(product.description),
-          Text(product.category.name),
-          Text(product.harga.toString()),
-          Text(product.image),
+          // Text(cart.product.id.toString()),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Name: "),
+                  Text("Description: "),
+                  Text("Product Category: "),
+                  Text("Price: "),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(cart.product.name),
+                  Text(cart.product.description, overflow: TextOverflow.ellipsis,),
+                  Text(cart.product.category.name),
+                  Text(cart.product.harga.toString()),
+                ],
+              ),
+            ],
+          ),
+          Image.network(cart.product.image),
+          Text("In cart: ${cart.count.toString()}"),
+          Text("Total: ${cart.total}"),
+          Row(
+            spacing: Constants.defaultGap,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: (){
+                  context.read<CartCubit>().addItemToCart(cart.product);
+                }, 
+                child: Text("Add more")
+              ),
+              TextButton(
+                onPressed: (){
+                  context.read<CartCubit>().deleteItemFromCart(cart.product);
+                }, 
+                child: Text("Delete one from Cart")
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -1,12 +1,14 @@
 class Dummies {
+  static String password = "password";
   static Map<String, dynamic> loginResponse = {
     "token": "dummy token",
     "user": userResponse
   };
 
   static Map<String, dynamic> userResponse = {
-    "name": "John Anserdon",
-    "email": "john.anserdon@gmail.com",
+    "name": "test",
+    "email": "test@gmail.com",
+    "address": "Jalan Bunga Patih no 1 Jakarta Selatan",
     "id": 1
   };
 
@@ -22,7 +24,7 @@ class Dummies {
       {
         "id": 1,
         "name": "Beton",
-        "image": "https://dummy.jpg",
+        "image": "https://miro.medium.com/1*cWklGlA01JspimzBenSUKA.jpeg",
         "description": "Beton kokoh nan panjang",
         "harga": 200000.0,
         "category": "one"
@@ -30,24 +32,24 @@ class Dummies {
       {
         "id": 2,
         "name": "Cangkul",
-        "image": "https://dummy.jpg",
         "description": "Cangkul untuk cangkul tanah",
+        "image": "https://miro.medium.com/1*cWklGlA01JspimzBenSUKA.jpeg",
         "harga": 250000.0,
         "category": "two"
       },
       {
         "id": 3,
         "name": "Bendera",
-        "image": "https://dummy.jpg",
         "description": "Bendera biru melambangkan lautan",
+        "image": "https://miro.medium.com/1*cWklGlA01JspimzBenSUKA.jpeg",
         "harga": 20000.0,
         "category": "three"
       },
       {
-        "id": 3,
+        "id": 4,
         "name": "Minum",
-        "image": "https://dummy.jpg",
         "description": "Minuman sehat manis dingin",
+        "image": "https://miro.medium.com/1*cWklGlA01JspimzBenSUKA.jpeg",
         "harga": 2000.0,
         "category": "two"
       },

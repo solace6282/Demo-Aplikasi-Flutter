@@ -11,7 +11,7 @@ class ProductService {
       return ApiReturnValue(response: null, message: response.message, statusCode: response.statusCode);
     }
 
-    return ApiReturnValue(response: (response.response as Iterable).map((e) => ProductModel.fromMap(e),).toList(), message: response.message, statusCode: response.statusCode);
+    return ApiReturnValue(response: (response.response!['data'] as Iterable).map((e) => ProductModel.fromMap(e),).toList(), message: response.message, statusCode: response.statusCode);
   }
 
 }

@@ -1,6 +1,6 @@
 part of '../widgets.dart';
 
-class GlobalDialog extends StatelessWidget {
+class GlobalDialog<T> extends StatelessWidget {
   const GlobalDialog({super.key, required this.center, required this.title, required this.subtitle});
 
   final Widget center;
@@ -10,17 +10,27 @@ class GlobalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 32),
+      decoration: BoxDecoration(
+
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10)
+      ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           center,
-          Text(title),
-          Text(subtitle)
+          SizedBox(height: 24,),
+          Text(title, style: TextStyle(fontSize: 16),),
+          Text(subtitle, style: TextStyle(fontSize: 14, color: Colors.grey),)
         ],
       ),
     );
   }
 
-  Future<T?> show<T>(
+  Future<T?> show(
     BuildContext context, {
       bool dismissable = false,
     }
@@ -29,23 +39,32 @@ class GlobalDialog extends StatelessWidget {
       barrierDismissible: dismissable || kDebugMode,
       useRootNavigator: true,
       context: context, 
-      builder: build
+      fullscreenDialog: false,
+      builder: (context) => Dialog(child: build(context),),
     );
   }
 
-  static void showLoading(BuildContext context) {
-    GlobalDialog(
+  static Future<T?> showLoading<T>(BuildContext context) async {
+    return await GlobalDialog<T>(
       center: CircularProgressIndicator(),
       subtitle: "Sistem sedang memproses",
       title: "Memuat...",
     ).show(context);
   }
 
-  static void showError(BuildContext context, String message) {
-    GlobalDialog(
-      center: Icon(Icons.warning_rounded),
+  static Future<T?> showError<T>(BuildContext context, String message) async {
+    return await GlobalDialog<T>(
+      center: Icon(Icons.warning_rounded, size: 100,),
       subtitle: message,
       title: "Error",
-    ).show(context);
+    ).show(context, dismissable: true);
+  }
+
+  static Future<T?> showSuccess<T>(BuildContext context, String message) async {
+    return await GlobalDialog<T>(
+      center: Icon(Icons.check, color: Colors.green, size: 100,),
+      subtitle: message,
+      title: "Success",
+    ).show(context, dismissable: true);
   }
 }

@@ -5,21 +5,25 @@ class UserModel extends Equatable {
   final int id;
   final String name;
   final String email;
+  final String address;
   const UserModel({
     required this.id,
     required this.name,
     required this.email,
+    required this.address
   });
 
   UserModel copyWith({
     int? id,
     String? name,
     String? email,
+    String? address
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      address: address ?? this.address
     );
   }
 
@@ -28,6 +32,7 @@ class UserModel extends Equatable {
       'id': id,
       'name': name,
       'email': email,
+      'address': address
     };
   }
 
@@ -36,6 +41,16 @@ class UserModel extends Equatable {
       id: map['id'] as int,
       name: map['name'] as String,
       email: map['email'] as String,
+      address: map['address']
+    );
+  }
+
+  factory UserModel.init() {
+    return UserModel(
+      id: -1,
+      name: '',
+      email: '',
+      address: ''
     );
   }
 
@@ -47,5 +62,5 @@ class UserModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [id, name, email];
+  List<Object> get props => [id, name, email, address];
 }

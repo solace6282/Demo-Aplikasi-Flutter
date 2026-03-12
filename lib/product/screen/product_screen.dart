@@ -18,21 +18,71 @@ class ProductScreen extends StatelessWidget {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<LoginCubit>().logout().then((value) {
+            if (context.mounted) Navigator.of(context).pushNamedAndRemoveUntil(routes.loginScreen, (route) => false,);
+          },);
+        },
+        child: Icon(Icons.logout),
+      ),
       body: Center(
-        child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return ProductWidget(
-              product: ProductModel(
-                id: index.toString(),
-                name: "Product $index",
-                image: "imagine_file_$index.jpg",
-                description: "description number $index",
-                harga: (900 * index).toDouble(),
-                category: ProductCategory.values[Random.secure().nextInt(3)]
-              )
-            );
-          },
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 247, 232, 250),
+              ),
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    spacing: Constants.defaultGap,
+                    children: [
+                      Text("Filter by: "),
+                      BlocBuilder<ProductCubit, ProductState>(
+                        builder: (context, state) {
+                          return DropdownButton<ProductCategory>(
+                            items: ProductCategory.values.map((e) {
+                              return DropdownMenuItem(
+                                value: e,
+                                child: Text(e.name),
+                              );
+                            },).toList(), 
+                            value: state.stateData.filter,
+                            onChanged: (value) {
+                              context.read<ProductCubit>().filter(value);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<ProductCubit>().filter();
+                    }, 
+                    child: Text("Reset")
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: BlocBuilder<ProductCubit, ProductState>(
+                builder: (context, state) {
+                  return ListView.builder(
+                    itemCount: state.stateData.shown.length,
+                    itemBuilder: (context, index) {
+                      return ProductWidget(
+                        product: state.stateData.shown[index]
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

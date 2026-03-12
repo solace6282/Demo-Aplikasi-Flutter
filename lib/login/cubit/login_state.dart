@@ -14,7 +14,11 @@ class LoginInitial extends LoginState {
 }
 
 class LoginFailed extends LoginState {
-  const LoginFailed(super.login);
+  final String message;
+  const LoginFailed(super.login, this.message);
+
+  @override
+  List<Object> get props => [...super.props, message];
 }
 
 class LoginLoading extends LoginState {
@@ -22,5 +26,6 @@ class LoginLoading extends LoginState {
 }
 
 class LoginSuccess extends LoginState {
-  const LoginSuccess(super.login);
+  final UserModel user;
+  const LoginSuccess(super.login, this.user);
 }

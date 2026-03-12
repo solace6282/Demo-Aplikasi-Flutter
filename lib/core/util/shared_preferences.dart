@@ -10,4 +10,9 @@ class SharedPreferencesUtil {
     final i = await SharedPreferences.getInstance();
     await i.setString(key, value);
   }
+
+  static Future<void> delete(String key) async {
+    final i = await SharedPreferences.getInstance();
+    await i.remove(key);
+  }
 }

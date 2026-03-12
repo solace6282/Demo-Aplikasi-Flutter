@@ -1,17 +1,12 @@
-# litest
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Ikuti instalasi **Android Studio** di link berikut:
+    https://developer.android.com/studio/install
+2. Untuk menjalankan di iOS, ikuti juga langkah instalasi di link ini
+    https://docs.flutter.dev/platform-integration/ios/setup
+2. Ikuti instalasi **Flutter** dengan mengikuti langkah di dokumentasi resmi:
+    https://docs.flutter.dev/install/quick
+3. Masuk ke folder aplikasi
+4. Jalankan `flutter doctor` di terminal
+    - Seharusnya diperlukan untuk menyetujui User Agreement untuk Android. Ikuti petunjuk yang diberikan 
+    - Selesaikan juga keperluan lain untuk Android
+5. Hubungkan perangkat Android dengan USB dan nyalakan Developer Mode dan USB Debugging pada halaman Developer Mode
+6. Jalankan `flutter run` di terminal

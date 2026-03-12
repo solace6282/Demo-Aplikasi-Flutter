@@ -18,8 +18,21 @@ class LoginService {
       return ApiReturnValue(response: null, message: response.message, statusCode: response.statusCode);
     }
 
-    await SharedPreferencesUtil.setString('token', response.response['token']);
+    await SharedPreferencesUtil.setString('token', response.response!['token']);
 
-    return ApiReturnValue(response: UserModel.fromMap(response.response['user']), message: response.message, statusCode: response.statusCode);
+    return ApiReturnValue(response: UserModel.fromMap(response.response!['user']), message: response.message, statusCode: response.statusCode);
+  }
+
+  Future<ApiReturnValue<UserModel>> getUser() async {
+    final response = await _apiService.get(
+      "${ApiConstants.baseUrl}/api/v1/user", 
+      await ApiConstants.headerWithToken()
+    );
+
+    if (response.response == null){
+      return ApiReturnValue(response: null, message: response.message, statusCode: response.statusCode);
+    }
+
+    return ApiReturnValue(response: UserModel.fromMap(response.response!), message: response.message, statusCode: response.statusCode);
   }
 }

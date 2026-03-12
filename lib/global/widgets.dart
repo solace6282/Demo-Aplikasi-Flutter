@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:litest/cart/cubit/cart_cubit.dart';
 import 'package:litest/core/util/constants.dart';
 import 'package:litest/global/models.dart';
 part "../product/widget/product_widget.dart";
@@ -6,4 +9,4 @@ part "../home/widget/home_widget.dart";
 part "../cart/widget/cart_widget.dart";
 part "../login/widget/login_widget.dart";
 part 'widgets/label_textfield.dart';
-part 'widgets/global_dialog.dart';
+part 'widgets/global_dialog.dart';part "../check_token/widget/check_token_widget.dart";

@@ -9,49 +9,91 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Cart'),
         // actionsPadding: EdgeInsets.only(right: Constants.defaultGap),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_basket_outlined),
-            onPressed: () {
-              Navigator.of(context).pushNamed(routes.cartScreen);
-            },
-          )
-        ],
       ),
       body: Center(
         child: Column(
           children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 247, 232, 250),
+              ),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Name: "),
+                      Text("Email: "),
+                      Text("Address: "),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(context.read<CartCubit>().state.stateData.userDetail.name),
+                      Text(context.read<CartCubit>().state.stateData.userDetail.email),
+                      Text(context.read<CartCubit>().state.stateData.userDetail.address),
+                    ],
+                  ),
+                ],
+              ),
+            ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ProductWidget(
-                    product: ProductModel(
-                      id: index.toString(),
-                      name: "Product $index",
-                      image: "imagine_file_$index.jpg",
-                      description: "description number $index",
-                      harga: (900 * index).toDouble(),
-                      category: ProductCategory.values[Random.secure().nextInt(3)]
-                    )
+              child: BlocBuilder<CartCubit, CartState>(
+                builder: (context, state) {
+                  return ListView.builder(
+                    itemCount: state.stateData.cart.length,
+                    itemBuilder: (context, index) {
+                      return CartWidget(
+                        cart: state.stateData.cart[index],
+                      );
+                    },
                   );
                 },
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 2,
-                    offset: Offset(-1, 0)
-                  )
-                ]
+            BlocListener<CartCubit, CartState>(
+              listener: (context, state) {
+                if (state is CartFailed){
+                  final message = switch (state.error) {
+                    CartError.noItems => "Masukkan minimal satu item",
+                  };
+                  GlobalDialog.showError(context, message);
+                  return;
+                }
+
+                if (state is CartSuccess){
+                  GlobalDialog.showSuccess(context, 'Anda berhasil membuat pesanan')
+                    .then((value) {
+                      dev.log("message");
+                      if (!context.mounted) return;
+                      context.read<CartCubit>().reset();
+                      Navigator.of(context).pop();
+                    },);
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [BoxShadow(blurRadius: 2, offset: Offset(-1, 0))],
+                ),
+                width: double.infinity,
+                padding: EdgeInsets.all(Constants.defaultGap),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Grand total: ${context.watch<CartCubit>().state.stateData.total}"),
+                    TextButton(
+                      onPressed: () {
+                        context.read<CartCubit>().submit();
+                      }, 
+                      child: Text("Checkout"),
+                    )
+                  ],
+                ),
               ),
-              width: double.infinity,
-              padding: EdgeInsets.all(Constants.defaultGap),
-              child: Text("xdd"),
-            )
+            ),
           ],
         ),
       ),

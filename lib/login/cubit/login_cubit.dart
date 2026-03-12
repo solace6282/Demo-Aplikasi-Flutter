@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:litest/core/util/shared_preferences.dart';
@@ -18,16 +20,21 @@ class LoginCubit extends Cubit<LoginState> {
     )));
   }
 
+  Future<void> logout() async {
+    // sleep(Duration(seconds: 2));
+    await SharedPreferencesUtil.delete("token");
+  }
+
   Future<void> login() async {
     emit(LoginLoading(state.login));
 
     final res = await _apiService.login(state.login);
 
     if (res.response == null){
-      emit(LoginFailed(state.login));
+      emit(LoginFailed(state.login, res.message));
       return;
     }
 
-    emit(LoginSuccess(state.login));
+    emit(LoginSuccess(state.login, res.response!));
   }
 }

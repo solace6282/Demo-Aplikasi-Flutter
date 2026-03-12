@@ -3,20 +3,32 @@ part of "../../global/models.dart";
 
 class ProductStateData extends Equatable {
   final List<ProductModel> products;
+  final List<ProductModel> shown;
+  final ProductCategory? filter;
   const ProductStateData({
     required this.products,
+    required this.shown,
+    required this.filter
   });
 
   ProductStateData copyWith({
     List<ProductModel>? products,
+    List<ProductModel>? shown,
+    CopyWithModel<ProductCategory>? filter
   }) {
     return ProductStateData(
       products: products ?? this.products,
+      shown: shown ?? this.shown,
+      filter: filter == null ? this.filter : filter.value
     );
   }
 
   factory ProductStateData.init() =>
-    ProductStateData(products: []);
+    ProductStateData(
+      products: [],
+      shown: [],
+      filter: null
+    );
 
   // Map<String, dynamic> toMap() {
   //   return <String, dynamic>{
@@ -38,5 +50,5 @@ class ProductStateData extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object> get props => [products];
+  List<Object> get props => [products, shown];
 }

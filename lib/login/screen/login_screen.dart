@@ -12,14 +12,23 @@ class LoginScreen extends StatelessWidget {
       body: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginLoading){
-            
+            GlobalDialog.showLoading(context);
           }
           if (state is LoginFailed){
+            Navigator.of(context).pop();
+            GlobalDialog.showError(context, state.message);
             // pop loading dialog
             // show error message
           }
           if (state is LoginSuccess){
             // pop loading dialog
+            context.read<ProductCubit>().getProducts();
+            context.read<CartCubit>().updateUser(state.user);
+            Navigator.of(context)
+              ..pop()
+              ..pushNamedAndRemoveUntil(routes.productScreen, (route) => false,);
+
+            // Toast
             // navigate to product screen
           }
         },

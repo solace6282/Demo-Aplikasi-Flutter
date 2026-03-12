@@ -4,10 +4,10 @@ part of "../../global/models.dart";
 enum ProductCategory {
   one,
   two,
-  three
+  three,
 }
 class ProductModel extends Equatable {
-  final String id;
+  final int id;
   final String name;
   final String image;
   final String description;
@@ -23,7 +23,7 @@ class ProductModel extends Equatable {
   });
 
   ProductModel copyWith({
-    String? id,
+    int? id,
     String? name,
     String? image,
     String? description,
@@ -40,23 +40,26 @@ class ProductModel extends Equatable {
     );
   }
 
-  // Map<String, dynamic> toMap() {
-  //   return <String, dynamic>{
-  //     'id': id,
-  //     'name': name,
-  //     'image': image,
-  //     'description': description,
-  //     'harga': harga,
-  //     'category': category.toMap(),
-  //   };
-  // }
+  factory ProductModel.init() =>
+    ProductModel(id: -1, name: '', image: '', description: '', harga: -1, category: ProductCategory.one);
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'name': name,
+      'image': image,
+      'description': description,
+      'harga': harga,
+      'category': category.name,
+    };
+  }
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      image: map['image'] as String,
-      description: map['description'] as String,
+      id: map['id'],
+      name: map['name'],
+      image: map['image'],
+      description: map['description'],
       harga: map['harga'] as double,
       category: ProductCategory.values.where((element) => element.name == map['category'],).firstOrNull ?? ProductCategory.one,
     );
