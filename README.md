@@ -10,3 +10,6 @@
     - Selesaikan juga keperluan lain untuk Android
 5. Hubungkan perangkat Android dengan USB dan nyalakan Developer Mode dan USB Debugging pada halaman Developer Mode
 6. Jalankan `flutter run` di terminal
+7. Kredensial untuk login di aplikasi:
+   - Email: test@gmail.com
+   - Password: password
